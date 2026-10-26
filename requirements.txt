@@ -1,0 +1,7 @@
+mcp==2.3.0
+uvicorn==0.54.0
+msal==1.39.0
+cryptography==50.0.2
+requests==2.34.2
+# Starlette TestClient contract checks.
+httpx==0.28.1

@@ -1,0 +1,34 @@
+[Unit]
+Description=Independent read-only Outlook MCP
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=afterhours-outlook
+Group=afterhours-outlook
+WorkingDirectory=/srv/apps/afterhours-outlook-mcp
+EnvironmentFile=/etc/afterhours-outlook-mcp/outlook.env
+LoadCredential=mcp-token:/etc/afterhours-outlook-mcp/mcp-token
+LoadCredential=cache-key:/etc/afterhours-outlook-mcp/cache-key
+StateDirectory=afterhours-outlook-mcp
+StateDirectoryMode=0700
+UMask=0077
+ExecStart=/srv/apps/afterhours-outlook-mcp/.venv/bin/uvicorn server:app --factory --host 127.0.0.1 --port 8004 --workers 1 --no-access-log --no-proxy-headers
+Restart=on-failure
+RestartSec=5
+TimeoutStopSec=20
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+CapabilityBoundingSet=
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+LimitCORE=0
+
+[Install]
+WantedBy=multi-user.target
